@@ -1,0 +1,9 @@
+[package]
+name = "destructivator"
+version = "0.1.0"
+authors = ["An Camchéachta"]
+
+[dependencies]
+argparse = "0.2.1"
+git2 = "0.6.8"
+toml = "0.4.5"
