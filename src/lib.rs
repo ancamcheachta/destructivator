@@ -1,6 +1,6 @@
 extern crate git2;
 
-use git2::Repository;
+use git2::{Delta, DiffDelta, Repository};
 use std::env::current_dir;
 use std::process::exit;
 
@@ -38,6 +38,18 @@ mod tests {
             exit(0);
         }
         
-        println!("head oid: {:?}, master oid: {:?}", head_oid, master_oid);
+        let diff = match repo.diff_tree_to_tree(
+            Some(&repo.find_commit(master_oid).unwrap().tree().unwrap()),
+            Some(&repo.find_commit(head_oid).unwrap().tree().unwrap()),
+            None
+        ) {
+            Ok(diff) => diff,
+            Err(e) => panic!("failed to produce diff: {}", e),
+        };
+        
+        let deltas: Vec<DiffDelta> = diff.deltas()
+            .filter_map(|d| match d.status() == Delta::Added { true => Some(d), false => None, })
+            .inspect(|d| println!("New file: {:?}", d.new_file().path().unwrap()))
+            .collect();
     }
 }
