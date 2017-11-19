@@ -1,0 +1,4 @@
+classes = "ApexClass"
+components = "ApexComponent"
+pages = "ApexPage"
+triggers = "ApexTrigger"

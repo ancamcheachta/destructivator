@@ -1,0 +1,8 @@
+*.properties
+.gitignore
+.travis.yml
+build.xml
+destructivator.ignore
+destructiveChanges.xml
+package.xml
+salesforce.schema

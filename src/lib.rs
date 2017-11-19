@@ -1,15 +1,21 @@
 extern crate git2;
+extern crate ignore;
 
 use git2::{Delta, DiffDelta, Repository};
-use std::env::current_dir;
+use ignore::gitignore::{Gitignore, GitignoreBuilder};
+use std::env;
+use std::path::Path;
 use std::process::exit;
+
+const IGNORE_FILE: &'static str = "destructivator.ignore";
+const PKG_NAME: &'static str = "destructivator";
 
 #[cfg(test)]
 mod tests {
     use super::*;
     #[test]
     fn it_works() {
-        let repo = match Repository::open(current_dir().unwrap()) {
+        let repo = match Repository::open(env::current_dir().unwrap()) {
             Ok(repo) => repo,
             Err(e) => panic!("failed to open: {}", e),
         };
@@ -47,8 +53,17 @@ mod tests {
             Err(e) => panic!("failed to produce diff: {}", e),
         };
         
+        let root_dir = env::home_dir().unwrap().join(&format!(".{}", PKG_NAME));
+        let assets_dir = root_dir.join("assets");
+        let ignore_file_path = assets_dir.join(IGNORE_FILE);
+        let mut builder = GitignoreBuilder::new(env::current_dir().unwrap().as_path());
+        builder.add(ignore_file_path.as_path());
+        let gitignore = builder.build().unwrap();
+        let m = |path: &str| gitignore.matched_path_or_any_parents(Path::new(path), false);
+        
         let deltas: Vec<DiffDelta> = diff.deltas()
             .filter_map(|d| match d.status() == Delta::Added { true => Some(d), false => None, })
+            .filter(|d| !m(d.new_file().path().unwrap().to_str().unwrap()).is_ignore())
             .inspect(|d| println!("New file: {:?}", d.new_file().path().unwrap()))
             .collect();
     }
