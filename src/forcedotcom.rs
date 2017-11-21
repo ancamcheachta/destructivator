@@ -1,12 +1,12 @@
 /// Formats `<members/>` tags
 macro_rules! format_members {
-    ( $($arg:tt)* ) => (format!("<members>{}</members>", $($arg)*));
+    ( $($arg:tt)* ) => (format!("        <members>{}</members>", $($arg)*));
 }
 
 /// Formats `<types/>` tags and their descendents
 macro_rules! format_types {
-    ( $($arg:tt)* ) => (format!(r"<types>
-        {}
+    ( $($arg:tt)* ) => (format!(r"    <types>
+{}
         <name>{}</name>
     </types>", $($arg)*));
 }
@@ -15,7 +15,7 @@ macro_rules! format_types {
 macro_rules! format_package {
     ( $($arg:tt)* ) => (format!(r#"<?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-    {}
+{}
     <version>{}</version>
 </Package>
 "#, $($arg)*));
