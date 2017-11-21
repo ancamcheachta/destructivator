@@ -6,6 +6,6 @@ build = "build.rs"
 
 [dependencies]
 argparse = "0.2.1"
+config = "0.7.0"
 git2 = "0.6.8"
 ignore = "0.3.1"
-toml = "0.4.5"
