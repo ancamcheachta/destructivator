@@ -1,18 +1,21 @@
+/// Formats `<members/>` tags
 macro_rules! format_members {
     ( $($arg:tt)* ) => (format!("<members>{}</members>", $($arg)*));
 }
 
+/// Formats `<types/>` tags and their descendents
 macro_rules! format_types {
     ( $($arg:tt)* ) => (format!(r"<types>
-        {} <!-- members -->
-        <name>{}</name> <!-- metadata type -->
-	</types>", $($arg)*));
+        {}
+        <name>{}</name>
+    </types>", $($arg)*));
 }
 
+/// Formats `<package/>` tags and its descendents
 macro_rules! format_package {
     ( $($arg:tt)* ) => (format!(r#"<?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-    {} <!-- types -->
+    {}
     <version>{}</version>
 </Package>
 "#, $($arg)*));
@@ -101,10 +104,7 @@ impl ToXML for Types {
 impl ToXML for Vec<Members> {
     fn to_xml(&self) -> String {
         let members: Vec<String> = self.iter()
-            .map(|members| {
-                let Members(ref m) = *members;
-                m.to_owned()
-            })
+            .map(|members| members.to_xml())
             .collect();
         
         members.join("\n")

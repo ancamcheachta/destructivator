@@ -41,12 +41,12 @@ impl<'a> ToPackage for Vec<DiffDelta<'a>> {
                         Some(c) => component.push_str(&c),
                     },
                 };
-                
+
                 if component.len() > 0 && type_mapping.contains_key(&md_folder) {
                     let md_type: String = type_mapping.get(&md_folder).unwrap().to_owned();
                     let members = Members::from(component);
                     
-                    if types_hash_map.contains_key(&md_type) {
+                    if !types_hash_map.contains_key(&md_type) {
                         types_hash_map.insert(md_type.clone(), Types::new(&md_type));
                     }
                     
