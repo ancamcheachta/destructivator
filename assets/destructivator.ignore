@@ -1,6 +1,7 @@
 *.properties
 .gitignore
 .travis.yml
+ant-salesforce.jar
 build.xml
 destructivator.ignore
 destructiveChanges.xml
