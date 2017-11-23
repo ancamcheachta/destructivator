@@ -1,0 +1,14 @@
+language: rust
+
+rust:
+    - beta
+
+cache: cargo
+
+env:
+    - RUST_TEST_THREADS=1
+
+sudo: false
+
+script:
+    - cargo test -- --nocapture

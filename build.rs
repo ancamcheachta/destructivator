@@ -1,7 +1,12 @@
+extern crate git2;
+
+use git2::build::{RepoBuilder};
 use std::env;
 use std::fs;
 use std::path::PathBuf;
 
+const FORCEDOTCOM_BRANCH_ALL_NEW: &'static str = "all-new";
+const FORCEDOTCOM_TEST_REPO: &'static str = "https://github.com/ancamcheachta/forcedotcom-project.git";
 const IGNORE_FILE: &'static str = "destructivator.ignore";
 const MAPPING_FILE: &'static str = "type-mapping.toml";
 
@@ -25,4 +30,12 @@ fn main() {
         man_assets_dir.join(MAPPING_FILE),
         &assets_dir.join(MAPPING_FILE).to_str().unwrap()
     );
+    
+    let test_repos = root_dir.join("test-repos");
+    let branch_all_new = test_repos.join(FORCEDOTCOM_BRANCH_ALL_NEW);
+    
+    if !branch_all_new.exists() {
+        RepoBuilder::new().branch(FORCEDOTCOM_BRANCH_ALL_NEW)
+            .clone(FORCEDOTCOM_TEST_REPO, &branch_all_new);
+    }
 }
