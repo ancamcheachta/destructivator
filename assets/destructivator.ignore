@@ -1,0 +1,13 @@
+*.properties
+*.cls-meta.xml
+*.component-meta.xml
+*.page-meta.xml
+*.trigger-meta.xml
+.gitignore
+.travis.yml
+ant-salesforce.jar
+build.xml
+destructivator.ignore
+destructiveChanges.xml
+package.xml
+salesforce.schema

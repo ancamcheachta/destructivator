@@ -1,0 +1,27 @@
+[package]
+name = "destructivator"
+description = "Automated Force.com project rollback with git integration."
+version = "0.1.0"
+authors = ["An Camchéachta"]
+build = "build.rs"
+repository = "https://github.com/ancamcheachta/destructivator"
+readme = "README.md"
+keywords = ["destructive", "force.com", "git", "metadata", "rollback", "Salesforce"]
+categories = ["command-line-utilities", "development-tools", "filesystem", "rendering::data-formats"]
+license = "MIT"
+
+[badges]
+coveralls = { repository = "ancamcheachta/destructivator", branch = "master", service = "github" }
+travis-ci = { repository = "ancamcheachta/destructivator", branch = "master" }
+
+[build-dependencies]
+git2 = "0.6.8"
+
+[dependencies]
+config = "0.7.0"
+git2 = "0.6.8"
+ignore = "0.3.1"
+
+[[test]]
+name = "destructivator-tests"
+path = "tests/lib.rs"
