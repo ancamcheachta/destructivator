@@ -1,14 +1,21 @@
 language: rust
 
+sudo: required
+
 rust:
     - beta
-
-cache: cargo
-
-env:
-    - RUST_TEST_THREADS=1
-
-sudo: false
-
+  
+before_script:
+    - pip install 'travis-cargo<0.2' --user && export PATH=$HOME/.local/bin:$PATH
+  
 script:
-    - cargo test -- --nocapture
+    - |
+        travis-cargo build &&
+        travis-cargo test &&
+        travis-cargo bench &&
+        travis-cargo doc
+      
+after_success:
+    - travis-cargo --only beta doc-upload
+    - travis-cargo coveralls
+  
