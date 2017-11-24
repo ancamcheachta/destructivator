@@ -13,14 +13,16 @@ use forcedotcom::*;
 use git::*;
 use git2::{Delta, DiffDelta};
 use std::collections::HashMap;
-use std::path::{Path};
+use std::path::{Path, PathBuf};
 
 /// The destructiveChanges.xml file rendered as a `String`.
-/// TODO: Expose to other languages:
-/// https://doc.rust-lang.org/1.5.0/book/rust-inside-other-languages.html
-pub fn destructive_changes_xml() -> String {
-    let repo = repo();
-    let (head, master) = (head(&repo), master(&repo));
+pub fn destructive_changes_xml(
+    repo_dir: Option<&PathBuf>,
+    base: Option<&str>,
+    compare: Option<&str>
+) -> String {
+    let repo = repo(repo_dir);
+    let (head, master) = (head(&repo, compare), master(&repo, base));
     let (master_oid, head_oid) = (
         master.target().unwrap(),
         head.target().unwrap()

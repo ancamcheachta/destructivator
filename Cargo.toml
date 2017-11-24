@@ -4,12 +4,19 @@ description = "Automated Force.com project rollback with git integration."
 version = "0.1.0"
 authors = ["An Camchéachta"]
 build = "build.rs"
+repository = "https://github.com/ancamcheachta/destructivator"
+readme = "README.md"
+keywords = ["destructive", "force.com", "git", "metadata", "rollback", "Salesforce"]
+categories = ["command-line-utilities", "development-tools", "filesystem", "rendering::data-formats"]
+license = "MIT"
+
+[badges]
+travis-ci = { repository = "ancamcheachta/destructivator", branch = "master" }
 
 [build-dependencies]
 git2 = "0.6.8"
 
 [dependencies]
-argparse = "0.2.1"
 config = "0.7.0"
 git2 = "0.6.8"
 ignore = "0.3.1"

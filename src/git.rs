@@ -24,10 +24,16 @@ pub fn diff<'a>(repo: &'a Repository, master_oid: &'a Oid, head_oid: &'a Oid) ->
 }
 
 /// The repository feature branch to be compared to master.
-pub fn head(repo: &Repository) -> Reference {
-    let head = match repo.head() {
-        Ok(head) => head,
-        Err(e) => panic!("failed to resolve HEAD: {}", e),
+pub fn head<'a>(repo: &'a Repository, compare: Option<&'a str>) -> Reference<'a> {
+    let head = match compare {
+        None => match repo.head() {
+            Ok(head) => head,
+            Err(e) => panic!("failed to resolve HEAD: {}", e),
+        },
+        Some(ref c) => match repo.find_reference(c) {
+            Ok(head) => head,
+            Err(e) => panic!("failed to resolve HEAD: {}", e),
+        },
     };
     
     if !head.is_branch() {
@@ -58,17 +64,28 @@ fn ignore_file_path(file_path: Option<&PathBuf>) -> PathBuf {
     }
 }
 
-/// The repository master branch.
-pub fn master(repo: &Repository) -> Reference {
-    match repo.find_reference("refs/remotes/origin/master") {
-        Ok(master) => master,
-        Err(e) => panic!("failed to resolve origin/master: {}", e),
+/// The repository master branch. If `base` is provided, 
+pub fn master<'a>(repo: &'a Repository, base: Option<&'a str>) -> Reference<'a> {
+    match base {
+        None => match repo.find_reference("refs/remotes/origin/master") {
+            Ok(master) => master,
+            Err(e) => panic!("failed to resolve origin/master: {}", e),
+        },
+        Some(ref b) => match repo.find_reference(b) {
+            Ok(master) => master,
+            Err(e) => panic!("failed to resolve origin/master: {}", e),
+        },
     }
+    
 }
 
 /// The repository of the Force.com project for which to generate a rollback branch.
-pub fn repo() -> Repository {
-    match Repository::open(env::current_dir().unwrap()) {
+pub fn repo(repo_dir: Option<&PathBuf>) -> Repository {
+    let dir = match repo_dir {
+        None => env::current_dir().unwrap(),
+        Some(rd) => rd.to_owned(),
+    };
+    match Repository::open(dir) {
         Ok(repo) => repo,
         Err(e) => panic!("failed to open: {}", e),
     }

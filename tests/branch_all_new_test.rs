@@ -12,7 +12,7 @@ fn branch_all_new_dir() -> PathBuf {
 fn it_knows_its_first_members() {
     env::set_current_dir(&branch_all_new_dir());
     
-    let destructive_changes = destructive_changes_xml();
+    let destructive_changes = destructive_changes_xml(None, None, None);
     
     assert!(destructive_changes.contains("<name>CustomApplication</name>"));
     assert!(destructive_changes.contains("<members>standard__AppLauncher</members>"));
@@ -23,7 +23,7 @@ fn it_knows_its_first_members() {
 fn it_knows_its_middle_members() {
     env::set_current_dir(&branch_all_new_dir());
     
-    let destructive_changes = destructive_changes_xml();
+    let destructive_changes = destructive_changes_xml(None, None, None);
     
     assert!(destructive_changes.contains("<name>HomePageLayout</name>"));
     assert!(destructive_changes.contains("<members>DE Default</members>"));
@@ -34,7 +34,7 @@ fn it_knows_its_middle_members() {
 fn it_knows_its_last_members() {
     env::set_current_dir(&branch_all_new_dir());
     
-    let destructive_changes = destructive_changes_xml();
+    let destructive_changes = destructive_changes_xml(None, None, None);
     
     assert!(destructive_changes.contains("<name>ApexTrigger</name>"));
     assert!(destructive_changes.contains("<members>orderBeforeInsert</members>"));
