@@ -11,6 +11,7 @@ categories = ["command-line-utilities", "development-tools", "filesystem", "rend
 license = "MIT"
 
 [badges]
+coveralls = { repository = "ancamcheachta/destructivator", branch = "master", service = "github" }
 travis-ci = { repository = "ancamcheachta/destructivator", branch = "master" }
 
 [build-dependencies]

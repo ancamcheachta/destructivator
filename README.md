@@ -1,6 +1,7 @@
 # destructivator
 [![Build Status](https://travis-ci.org/ancamcheachta/destructivator.svg?branch=master)](https://travis-ci.org/ancamcheachta/destructivator)
 [![crates.io](https://img.shields.io/crates/v/destructivator.svg)](https://crates.io/crates/destructivator)
+[![Coverage Status](https://coveralls.io/repos/github/ancamcheachta/destructivator/badge.svg)](https://coveralls.io/github/ancamcheachta/destructivator)
 
 Automated Force.com project rollback with git integration.  As of the initial 0.1.0 release, the destructivator CLI produces a 
 `destructiveChanges.xml` file based on the deltas between a feature branch and master branch of a git repository.
