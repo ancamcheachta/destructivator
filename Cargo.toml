@@ -6,7 +6,7 @@ authors = ["An Camchéachta"]
 build = "build.rs"
 repository = "https://github.com/ancamcheachta/destructivator"
 readme = "README.md"
-keywords = ["destructive", "force.com", "git", "metadata", "rollback", "Salesforce"]
+keywords = ["destructive", "forcedotcom", "git", "metadata", "Salesforce"]
 categories = ["command-line-utilities", "development-tools", "filesystem", "rendering::data-formats"]
 license = "MIT"
 
