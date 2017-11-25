@@ -1,6 +1,8 @@
-sudo: false
+dist: trusty
 
 language: rust
+
+sudo: true
 
 addons:
     apt:
@@ -9,22 +11,29 @@ addons:
             - libelf-dev
             - libdw-dev
             - binutils-dev
+            - libiberty-dev
+            - g++
+
+os:
+    - linux
 
 rust:
     - beta
 
-before_script:
-    - |
-        pip install 'travis-cargo<0.2' --user &&
-        export PATH=$HOME/.local/bin:$PATH
+env:
+    matrix:
+        - ARCH=x86_64
+
+install:
+    - rustc -vV
+    - cargo -vV
+    - mkdir -p ~/.cargo/bin
+    - sh bin/install_kcov.sh
+    - export PATH=$HOME/.local/bin:$HOME/.cargo/bin:$HOME/Library/Python/2.7/bin:$PATH
+    - export RUSTFLAGS="-C link-dead-code"
+    - kcov --version
+    - cargo install cargo-kcov
 
 script:
-    - |
-        travis-cargo build &&
-        travis-cargo test &&
-        travis-cargo bench &&
-        travis-cargo --only stable doc
-        
-after_success:
-    - travis-cargo --only stable doc-upload
-    - travis-cargo coveralls --no-sudo --verify
+    - cargo test
+    - cargo-kcov kcov --verbose --no-clean-rebuild --lib --coveralls
